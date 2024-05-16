@@ -9,7 +9,6 @@ import { Counter } from "./components/counter";
 function App() {
   return (
     <>
-      <Headers></Headers>
       <FormArea></FormArea>
     </>
   );

@@ -130,127 +130,137 @@ const FormArea = () => {
   const totalPrice = (pizzaBasePrice + totalToppingPrice) * counter;
 
   return (
-    <main className="formAlani">
-      <form onSubmit={handleSubmit}>
-        <label>
-          İsim:
-          <input
-            type="text"
-            value={formData.isim}
-            onChange={handleNameChange}
-            minLength={3}
-            required
-            disabled={submitting}
-          />
-        </label>
-
+    <main>
+      <header>
+        <h1>Teknolojik Yemekler</h1>
         <br />
+        <nav>
+          <a href="">Anasayfa</a>
+          <a href="">Sipariş Oluştur</a>
+        </nav>
+      </header>
+      <div className="formAlani">
+        <form onSubmit={handleSubmit}>
+          <label>
+            İsim:
+            <input
+              type="text"
+              value={formData.isim}
+              onChange={handleNameChange}
+              minLength={3}
+              required
+              disabled={submitting}
+            />
+          </label>
 
-        <label>
-          Boyut Seç
-          <input
-            type="radio"
-            name="boyut"
-            value="small"
-            onChange={handleSizeChange}
-            required
-            disabled={submitting}
-          />
-          Küçük
-          <input
-            type="radio"
-            name="boyut"
-            value="medium"
-            onChange={handleSizeChange}
-            required
-            disabled={submitting}
-          />
-          Orta
-          <input
-            type="radio"
-            name="boyut"
-            value="large"
-            onChange={handleSizeChange}
-            required
-            disabled={submitting}
-          />
-          Büyük
-        </label>
+          <br />
 
-        <br />
+          <label>
+            Boyut Seç
+            <input
+              type="radio"
+              name="boyut"
+              value="small"
+              onChange={handleSizeChange}
+              required
+              disabled={submitting}
+            />
+            Küçük
+            <input
+              type="radio"
+              name="boyut"
+              value="medium"
+              onChange={handleSizeChange}
+              required
+              disabled={submitting}
+            />
+            Orta
+            <input
+              type="radio"
+              name="boyut"
+              value="large"
+              onChange={handleSizeChange}
+              required
+              disabled={submitting}
+            />
+            Büyük
+          </label>
 
-        <label>
-          Hamur Tipi
-          <select
-            value={formData.hamurTipi}
-            onChange={handleDoughChange}
-            required
-            disabled={submitting}
+          <br />
+
+          <label>
+            Hamur Tipi
+            <select
+              value={formData.hamurTipi}
+              onChange={handleDoughChange}
+              required
+              disabled={submitting}
+            >
+              <option value="">Hamur Tipi Seçiniz</option>
+              <option value="ince">İnce</option>
+              <option value="standart">Standart</option>
+              <option value="kalin">Kalın</option>
+            </select>
+          </label>
+
+          <br />
+
+          <label>Pizza Toppings:</label>
+          <div>
+            {pizzaToppings.map((topping) => (
+              <label key={topping.id}>
+                <input
+                  type="checkbox"
+                  value={topping.name}
+                  onChange={handleToppingChange}
+                  checked={formData.toppings.includes(topping.name)}
+                  disabled={submitting}
+                />
+                {topping.name}
+              </label>
+            ))}
+          </div>
+
+          <label>
+            Ek Notlar:
+            <textarea
+              value={formData.extraNotes}
+              onChange={handleExtraNotesChange}
+              disabled={submitting}
+            ></textarea>
+          </label>
+
+          <div className="counter">{counter}</div>
+          <div>
+            <Button onClick={handleCounterIncrement} color="primary">
+              +
+            </Button>
+
+            <Button onClick={handleCounterDecrement} color="primary">
+              -
+            </Button>
+          </div>
+
+          <div className="order-total">
+            <div>Pizza Price: {pizzaBasePrice} TL</div>
+            <div>Extra Topping Price: {totalToppingPrice} TL</div>
+            <div>Order Total: {totalPrice} TL</div>
+          </div>
+
+          <Button
+            onClick={handleSubmit}
+            disabled={
+              !formData.isim ||
+              !formData.boyut ||
+              !formData.hamurTipi ||
+              formData.toppings.length < 4 ||
+              submitting
+            }
           >
-            <option value="">Hamur Tipi Seçiniz</option>
-            <option value="ince">İnce</option>
-            <option value="standart">Standart</option>
-            <option value="kalin">Kalın</option>
-          </select>
-        </label>
-
-        <br />
-
-        <label>Pizza Toppings:</label>
-        <div>
-          {pizzaToppings.map((topping) => (
-            <label key={topping.id}>
-              <input
-                type="checkbox"
-                value={topping.name}
-                onChange={handleToppingChange}
-                checked={formData.toppings.includes(topping.name)}
-                disabled={submitting}
-              />
-              {topping.name}
-            </label>
-          ))}
-        </div>
-
-        <label>
-          Ek Notlar:
-          <textarea
-            value={formData.extraNotes}
-            onChange={handleExtraNotesChange}
-            disabled={submitting}
-          ></textarea>
-        </label>
-
-        <div className="counter">{counter}</div>
-        <div>
-          <Button onClick={handleCounterIncrement} color="primary">
-            +
+            {submitting ? "Sending..." : "Place Order"}
           </Button>
-
-          <Button onClick={handleCounterDecrement} color="primary">
-            -
-          </Button>
-        </div>
-
-        <div className="order-total">
-          <div>Pizza Price: {pizzaBasePrice} TL</div>
-          <div>Extra Topping Price: {totalToppingPrice} TL</div>
-          <div>Order Total: {totalPrice} TL</div>
-        </div>
-
-        <Button
-          onClick={handleSubmit}
-          disabled={
-            !formData.isim ||
-            !formData.boyut ||
-            !formData.hamurTipi ||
-            formData.toppings.length < 4 ||
-            submitting
-          }
-        >
-          {submitting ? "Sending..." : "Place Order"}
-        </Button>
-      </form>
+        </form>
+      </div>
     </main>
   );
 };
