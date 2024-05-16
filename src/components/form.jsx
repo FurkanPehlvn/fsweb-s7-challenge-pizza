@@ -1,4 +1,5 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import axios from "axios";
 
 const FormArea = () => {
   const [formData, setFormData] = useState({
@@ -6,7 +7,9 @@ const FormArea = () => {
     boyut: "",
     hamurTipi: "",
     toppings: [],
+    extraNotes: "",
   });
+  const [submitting, setSubmitting] = useState(false); // Gönderim durumunu takip etmek için state
 
   const pizzaToppings = [
     { id: 1, name: "Mantar" },
@@ -59,13 +62,45 @@ const FormArea = () => {
     }
   };
 
-  const handleSubmit = (event) => {
+  const handleExtraNotesChange = (event) => {
+    setFormData({
+      ...formData,
+      extraNotes: event.target.value,
+    });
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (formData.toppings.length < 4) {
-      alert("En az 4 pizza topping seçmelisiniz!");
-      return;
+
+    // Formun gönderimini başlat
+    setSubmitting(true);
+
+    try {
+      // Axios ile POST isteği gönder
+      const response = await axios.post(
+        "https://reqres.in/api/pizza",
+        formData
+      );
+
+      // Yanıtı konsola yazdır
+      console.log("Yanıt:", response.data);
+    } catch (error) {
+      console.error("Hata:", error);
+    } finally {
+      // Form gönderimini tamamla
+      setSubmitting(false);
     }
-    console.log(formData); // Form verisini konsola yazdırma veya istediğiniz şekilde kullanma
+  };
+
+  // Formun gönderilebilir olup olmadığını kontrol etmek için bir işlev
+  const isFormValid = () => {
+    return (
+      formData.isim &&
+      formData.boyut &&
+      formData.hamurTipi &&
+      formData.toppings.length >= 4 &&
+      !submitting
+    );
   };
 
   return (
@@ -79,6 +114,7 @@ const FormArea = () => {
             onChange={handleNameChange}
             minLength={3}
             required
+            disabled={submitting}
           />
         </label>
 
@@ -92,6 +128,7 @@ const FormArea = () => {
             value="small"
             onChange={handleSizeChange}
             required
+            disabled={submitting}
           />
           Küçük
           <input
@@ -100,6 +137,7 @@ const FormArea = () => {
             value="medium"
             onChange={handleSizeChange}
             required
+            disabled={submitting}
           />
           Orta
           <input
@@ -108,6 +146,7 @@ const FormArea = () => {
             value="large"
             onChange={handleSizeChange}
             required
+            disabled={submitting}
           />
           Büyük
         </label>
@@ -120,6 +159,7 @@ const FormArea = () => {
             value={formData.hamurTipi}
             onChange={handleDoughChange}
             required
+            disabled={submitting}
           >
             <option value="">Hamur Tipi Seçiniz</option>
             <option value="ince">İnce</option>
@@ -139,13 +179,25 @@ const FormArea = () => {
                 value={topping.name}
                 onChange={handleToppingChange}
                 checked={formData.toppings.includes(topping.name)}
+                disabled={submitting}
               />
               {topping.name}
             </label>
           ))}
         </div>
 
-        <button type="submit">Gönder</button>
+        <label>
+          Ek Notlar:
+          <textarea
+            value={formData.extraNotes}
+            onChange={handleExtraNotesChange}
+            disabled={submitting}
+          ></textarea>
+        </label>
+
+        <button type="submit" disabled={!isFormValid()}>
+          {submitting ? "Gönderiliyor..." : "Sipariş Ver"}
+        </button>
       </form>
     </main>
   );

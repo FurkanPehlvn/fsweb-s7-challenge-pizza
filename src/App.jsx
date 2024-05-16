@@ -3,12 +3,12 @@ import reactLogo from "./assets/react.svg";
 import workintech from "/workintech.svg";
 import "./App.css";
 import FormArea from "./components/form";
+import Headers from "./components/header";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
+      <Headers></Headers>
       <FormArea></FormArea>
     </>
   );
