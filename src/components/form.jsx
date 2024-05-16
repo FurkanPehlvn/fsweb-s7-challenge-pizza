@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Button } from "reactstrap";
 
 const FormArea = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +10,11 @@ const FormArea = () => {
     toppings: [],
     extraNotes: "",
   });
-  const [submitting, setSubmitting] = useState(false); // Gönderim durumunu takip etmek için state
+  const [submitting, setSubmitting] = useState(false);
+  const [counter, setCounter] = useState(1); // Counter state
+
+  const pizzaBasePrice = 20; // Base price of the pizza
+  const extraToppingPrice = 5; // Price per extra topping
 
   const pizzaToppings = [
     { id: 1, name: "Mantar" },
@@ -69,6 +74,16 @@ const FormArea = () => {
     });
   };
 
+  const handleCounterIncrement = () => {
+    setCounter(counter + 1);
+  };
+
+  const handleCounterDecrement = () => {
+    if (counter > 1) {
+      setCounter(counter - 1);
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -84,6 +99,14 @@ const FormArea = () => {
 
       // Yanıtı konsola yazdır
       console.log("Yanıt:", response.data);
+      setFormData({
+        isim: "",
+        boyut: "",
+        hamurTipi: "",
+        toppings: [],
+        extraNotes: "",
+      });
+      setCounter(1);
     } catch (error) {
       console.error("Hata:", error);
     } finally {
@@ -102,6 +125,9 @@ const FormArea = () => {
       !submitting
     );
   };
+
+  const totalToppingPrice = formData.toppings.length * extraToppingPrice;
+  const totalPrice = (pizzaBasePrice + totalToppingPrice) * counter;
 
   return (
     <main className="formAlani">
@@ -195,9 +221,35 @@ const FormArea = () => {
           ></textarea>
         </label>
 
-        <button type="submit" disabled={!isFormValid()}>
-          {submitting ? "Gönderiliyor..." : "Sipariş Ver"}
-        </button>
+        <div className="counter">{counter}</div>
+        <div>
+          <Button onClick={handleCounterIncrement} color="primary">
+            +
+          </Button>
+
+          <Button onClick={handleCounterDecrement} color="primary">
+            -
+          </Button>
+        </div>
+
+        <div className="order-total">
+          <div>Pizza Price: {pizzaBasePrice} TL</div>
+          <div>Extra Topping Price: {totalToppingPrice} TL</div>
+          <div>Order Total: {totalPrice} TL</div>
+        </div>
+
+        <Button
+          onClick={handleSubmit}
+          disabled={
+            !formData.isim ||
+            !formData.boyut ||
+            !formData.hamurTipi ||
+            formData.toppings.length < 4 ||
+            submitting
+          }
+        >
+          {submitting ? "Sending..." : "Place Order"}
+        </Button>
       </form>
     </main>
   );
