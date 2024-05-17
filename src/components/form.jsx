@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { Button } from "reactstrap";
-
+import "./form.css";
 const FormArea = () => {
   const [formData, setFormData] = useState({
     isim: "",
@@ -90,111 +90,112 @@ const FormArea = () => {
           <a href="#">Sipariş Oluştur</a>
         </nav>
       </header>
-      <section>
+      <section className="pizza-section">
         <h2>Pizza Adı</h2>
-      </section>
-      <div className="formAlani">
-        <form onSubmit={handleSubmit}>
-          <label>
-            İsim:
-            <input
-              type="text"
-              name="isim"
-              value={formData.isim}
-              onChange={handleInputChange}
-              minLength={3}
-              required
-              disabled={submitting}
-            />
-          </label>
-
-          <br />
-
-          <label>
-            Boyut Seç:
-            {["small", "medium", "large"].map((size) => (
-              <label key={size}>
-                <input
-                  type="radio"
-                  name="boyut"
-                  value={size}
+        <div className="formAlani">
+          <form onSubmit={handleSubmit}>
+            <label>
+              İsim:
+              <input
+                type="text"
+                name="isim"
+                value={formData.isim}
+                onChange={handleInputChange}
+                minLength={3}
+                required
+                disabled={submitting}
+              />
+            </label>
+            <br />
+            <div className="options">
+              <label>
+                Boyut Seç:
+                {["small", "medium", "large"].map((size) => (
+                  <label key={size}>
+                    <input
+                      type="radio"
+                      name="boyut"
+                      value={size}
+                      onChange={handleInputChange}
+                      required
+                      disabled={submitting}
+                    />
+                    {size.charAt(0).toUpperCase() + size.slice(1)}
+                  </label>
+                ))}
+              </label>
+              <label>
+                Hamur Tipi:
+                <select
+                  name="hamurTipi"
+                  value={formData.hamurTipi}
                   onChange={handleInputChange}
                   required
                   disabled={submitting}
-                />
-                {size.charAt(0).toUpperCase() + size.slice(1)}
+                >
+                  <option value="">Hamur Tipi Seçiniz</option>
+                  <option value="ince">İnce</option>
+                  <option value="standart">Standart</option>
+                  <option value="kalin">Kalın</option>
+                </select>
               </label>
-            ))}
-          </label>
-
-          <br />
-
-          <label>
-            Hamur Tipi:
-            <select
-              name="hamurTipi"
-              value={formData.hamurTipi}
-              onChange={handleInputChange}
-              required
-              disabled={submitting}
-            >
-              <option value="">Hamur Tipi Seçiniz</option>
-              <option value="ince">İnce</option>
-              <option value="standart">Standart</option>
-              <option value="kalin">Kalın</option>
-            </select>
-          </label>
-
-          <br />
-
-          <label>Pizza Toppings:</label>
-          <div>
-            {pizzaToppings.map((topping) => (
-              <label key={topping.id}>
-                <input
-                  type="checkbox"
-                  name="toppings"
-                  value={topping.name}
-                  onChange={handleInputChange}
-                  checked={formData.toppings.includes(topping.name)}
-                  disabled={submitting}
-                />
-                {topping.name}
-              </label>
-            ))}
-          </div>
-
-          <label>
-            Ek Notlar:
-            <textarea
-              name="extraNotes"
-              value={formData.extraNotes}
-              onChange={handleInputChange}
-              disabled={submitting}
-            ></textarea>
-          </label>
-
-          <div className="counter">{counter}</div>
-          <div>
-            <Button onClick={() => handleCounterChange(true)} color="primary">
-              +
-            </Button>
-            <Button onClick={() => handleCounterChange(false)} color="primary">
-              -
-            </Button>
-          </div>
-
-          <div className="order-total">
-            <div>Pizza Price: {pizzaBasePrice} TL</div>
-            <div>Extra Topping Price: {totalToppingPrice} TL</div>
-            <div>Order Total: {totalPrice} TL</div>
-          </div>
-
-          <Button type="submit" disabled={!isFormValid()}>
-            {submitting ? "Sending..." : "Place Order"}
-          </Button>
-        </form>
-      </div>
+            </div>
+            <br />
+            <label>Pizza Toppings:</label>
+            <div className="toppings">
+              {pizzaToppings.map((topping) => (
+                <label key={topping.id}>
+                  <input
+                    type="checkbox"
+                    name="toppings"
+                    value={topping.name}
+                    onChange={handleInputChange}
+                    checked={formData.toppings.includes(topping.name)}
+                    disabled={submitting}
+                  />
+                  {topping.name}
+                </label>
+              ))}
+            </div>
+            <br />
+            <label>
+              Ek Notlar:
+              <textarea
+                name="extraNotes"
+                value={formData.extraNotes}
+                onChange={handleInputChange}
+                disabled={submitting}
+              ></textarea>
+            </label>
+            <hr />
+            <div className="order-summary">
+              <div className="counter">
+                <Button
+                  onClick={() => handleCounterChange(true)}
+                  color="primary"
+                >
+                  +
+                </Button>
+                <div className="counter-value">{counter}</div>
+                <Button
+                  onClick={() => handleCounterChange(false)}
+                  color="primary"
+                >
+                  -
+                </Button>
+              </div>
+              <div className="order-total">
+                <div>Pizza Price: {pizzaBasePrice} TL</div>
+                <div>Extra Topping Price: {totalToppingPrice} TL</div>
+                <div>Order Total: {totalPrice} TL</div>
+                <Button type="submit" disabled={!isFormValid()}>
+                  {submitting ? "Sending..." : "Place Order"}
+                </Button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </section>
     </main>
   );
 };
