@@ -7,3 +7,5 @@ const Anasayfa = () => {
     </>
   );
 };
+
+export default Anasayfa;

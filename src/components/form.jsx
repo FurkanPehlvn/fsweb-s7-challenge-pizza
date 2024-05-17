@@ -11,10 +11,10 @@ const FormArea = () => {
     extraNotes: "",
   });
   const [submitting, setSubmitting] = useState(false);
-  const [counter, setCounter] = useState(1); // Counter state
+  const [counter, setCounter] = useState(1);
 
-  const pizzaBasePrice = 20; // Base price of the pizza
-  const extraToppingPrice = 5; // Price per extra topping
+  const pizzaBasePrice = 20;
+  const extraToppingPrice = 5;
 
   const pizzaToppings = [
     { id: 1, name: "Mantar" },
@@ -23,81 +23,40 @@ const FormArea = () => {
     { id: 4, name: "Zeytin" },
     { id: 5, name: "Biber" },
     { id: 6, name: "Mısır" },
-    // Diğer pizza topping'leri buraya eklenebilir
   ];
 
-  const handleNameChange = (event) => {
-    setFormData({
-      ...formData,
-      isim: event.target.value,
-    });
-  };
-
-  const handleSizeChange = (event) => {
-    setFormData({
-      ...formData,
-      boyut: event.target.value,
-    });
-  };
-
-  const handleDoughChange = (event) => {
-    setFormData({
-      ...formData,
-      hamurTipi: event.target.value,
-    });
-  };
-
-  const handleToppingChange = (event) => {
-    const selectedTopping = event.target.value;
-    const isChecked = event.target.checked;
-
-    if (isChecked) {
-      setFormData({
-        ...formData,
-        toppings: [...formData.toppings, selectedTopping],
-      });
+  const handleInputChange = (event) => {
+    const { name, value, type, checked } = event.target;
+    if (type === "checkbox") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        toppings: checked
+          ? [...prevFormData.toppings, value]
+          : prevFormData.toppings.filter((topping) => topping !== value),
+      }));
     } else {
-      const updatedToppings = formData.toppings.filter(
-        (topping) => topping !== selectedTopping
-      );
-      setFormData({
-        ...formData,
-        toppings: updatedToppings,
-      });
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
     }
   };
 
-  const handleExtraNotesChange = (event) => {
-    setFormData({
-      ...formData,
-      extraNotes: event.target.value,
+  const handleCounterChange = (increment) => {
+    setCounter((prevCounter) => {
+      const newCounter = increment ? prevCounter + 1 : prevCounter - 1;
+      return newCounter > 0 ? newCounter : 1;
     });
-  };
-
-  const handleCounterIncrement = () => {
-    setCounter(counter + 1);
-  };
-
-  const handleCounterDecrement = () => {
-    if (counter > 1) {
-      setCounter(counter - 1);
-    }
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Formun gönderimini başlat
     setSubmitting(true);
-
     try {
-      // Axios ile POST isteği gönder
       const response = await axios.post(
         "https://reqres.in/api/pizza",
         formData
       );
-
-      // Yanıtı konsola yazdır
       console.log("Yanıt:", response.data);
       setFormData({
         isim: "",
@@ -110,20 +69,13 @@ const FormArea = () => {
     } catch (error) {
       console.error("Hata:", error);
     } finally {
-      // Form gönderimini tamamla
       setSubmitting(false);
     }
   };
 
-  // Formun gönderilebilir olup olmadığını kontrol etmek için bir işlev
   const isFormValid = () => {
-    return (
-      formData.isim &&
-      formData.boyut &&
-      formData.hamurTipi &&
-      formData.toppings.length >= 4 &&
-      !submitting
-    );
+    const { isim, boyut, hamurTipi, toppings } = formData;
+    return isim && boyut && hamurTipi && toppings.length >= 4 && !submitting;
   };
 
   const totalToppingPrice = formData.toppings.length * extraToppingPrice;
@@ -133,20 +85,23 @@ const FormArea = () => {
     <main>
       <header>
         <h1>Teknolojik Yemekler</h1>
-        <br />
         <nav>
-          <a href="">Anasayfa</a>
-          <a href="">Sipariş Oluştur</a>
+          <a href="#">Anasayfa</a>
+          <a href="#">Sipariş Oluştur</a>
         </nav>
       </header>
+      <section>
+        <h2>Pizza Adı</h2>
+      </section>
       <div className="formAlani">
         <form onSubmit={handleSubmit}>
           <label>
             İsim:
             <input
               type="text"
+              name="isim"
               value={formData.isim}
-              onChange={handleNameChange}
+              onChange={handleInputChange}
               minLength={3}
               required
               disabled={submitting}
@@ -156,43 +111,30 @@ const FormArea = () => {
           <br />
 
           <label>
-            Boyut Seç
-            <input
-              type="radio"
-              name="boyut"
-              value="small"
-              onChange={handleSizeChange}
-              required
-              disabled={submitting}
-            />
-            Küçük
-            <input
-              type="radio"
-              name="boyut"
-              value="medium"
-              onChange={handleSizeChange}
-              required
-              disabled={submitting}
-            />
-            Orta
-            <input
-              type="radio"
-              name="boyut"
-              value="large"
-              onChange={handleSizeChange}
-              required
-              disabled={submitting}
-            />
-            Büyük
+            Boyut Seç:
+            {["small", "medium", "large"].map((size) => (
+              <label key={size}>
+                <input
+                  type="radio"
+                  name="boyut"
+                  value={size}
+                  onChange={handleInputChange}
+                  required
+                  disabled={submitting}
+                />
+                {size.charAt(0).toUpperCase() + size.slice(1)}
+              </label>
+            ))}
           </label>
 
           <br />
 
           <label>
-            Hamur Tipi
+            Hamur Tipi:
             <select
+              name="hamurTipi"
               value={formData.hamurTipi}
-              onChange={handleDoughChange}
+              onChange={handleInputChange}
               required
               disabled={submitting}
             >
@@ -211,8 +153,9 @@ const FormArea = () => {
               <label key={topping.id}>
                 <input
                   type="checkbox"
+                  name="toppings"
                   value={topping.name}
-                  onChange={handleToppingChange}
+                  onChange={handleInputChange}
                   checked={formData.toppings.includes(topping.name)}
                   disabled={submitting}
                 />
@@ -224,19 +167,19 @@ const FormArea = () => {
           <label>
             Ek Notlar:
             <textarea
+              name="extraNotes"
               value={formData.extraNotes}
-              onChange={handleExtraNotesChange}
+              onChange={handleInputChange}
               disabled={submitting}
             ></textarea>
           </label>
 
           <div className="counter">{counter}</div>
           <div>
-            <Button onClick={handleCounterIncrement} color="primary">
+            <Button onClick={() => handleCounterChange(true)} color="primary">
               +
             </Button>
-
-            <Button onClick={handleCounterDecrement} color="primary">
+            <Button onClick={() => handleCounterChange(false)} color="primary">
               -
             </Button>
           </div>
@@ -247,16 +190,7 @@ const FormArea = () => {
             <div>Order Total: {totalPrice} TL</div>
           </div>
 
-          <Button
-            onClick={handleSubmit}
-            disabled={
-              !formData.isim ||
-              !formData.boyut ||
-              !formData.hamurTipi ||
-              formData.toppings.length < 4 ||
-              submitting
-            }
-          >
+          <Button type="submit" disabled={!isFormValid()}>
             {submitting ? "Sending..." : "Place Order"}
           </Button>
         </form>
