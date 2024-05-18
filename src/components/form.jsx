@@ -23,6 +23,9 @@ const FormArea = () => {
     { id: 4, name: "Zeytin" },
     { id: 5, name: "Biber" },
     { id: 6, name: "Mısır" },
+    { id: 7, name: "Patlıcan" },
+    { id: 8, name: "Hamsi" },
+    { id: 9, name: "Beyaz Peynir" },
   ];
 
   const handleInputChange = (event) => {
