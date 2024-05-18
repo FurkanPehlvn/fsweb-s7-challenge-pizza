@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Button } from "reactstrap";
+
 import "./form.css";
+
 const FormArea = () => {
   const [formData, setFormData] = useState({
     isim: "",
@@ -10,12 +11,13 @@ const FormArea = () => {
     toppings: [],
     extraNotes: "",
   });
+
   const [submitting, setSubmitting] = useState(false);
   const [counter, setCounter] = useState(1);
 
   const pizzaBasePrice = 20;
   const extraToppingPrice = 5;
-
+  const pizzaBoyut = ["small", "medium", "large"];
   const pizzaToppings = [
     { id: 1, name: "Mantar" },
     { id: 2, name: "Sucuk" },
@@ -29,20 +31,24 @@ const FormArea = () => {
   ];
 
   const handleInputChange = (event) => {
-    const { name, value, type, checked } = event.target;
-    if (type === "checkbox") {
-      setFormData((prevFormData) => ({
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    setFormData((prevFormData) => {
+      let newToppings = checked
+        ? [...prevFormData.toppings, value]
+        : prevFormData.toppings.filter((topping) => topping !== value);
+      return {
         ...prevFormData,
-        toppings: checked
-          ? [...prevFormData.toppings, value]
-          : prevFormData.toppings.filter((topping) => topping !== value),
-      }));
-    } else {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        [name]: value,
-      }));
-    }
+        toppings: newToppings,
+      };
+    });
   };
 
   const handleCounterChange = (increment) => {
@@ -61,14 +67,6 @@ const FormArea = () => {
         formData
       );
       console.log("Yanıt:", response.data);
-      setFormData({
-        isim: "",
-        boyut: "",
-        hamurTipi: "",
-        toppings: [],
-        extraNotes: "",
-      });
-      setCounter(1);
     } catch (error) {
       console.error("Hata:", error);
     } finally {
@@ -88,6 +86,9 @@ const FormArea = () => {
     <main>
       <section className="pizza-section">
         <h2>Pizza Adı</h2>
+        <h3>{pizzaBasePrice}₺</h3>
+        <p>4.9</p>
+        <p>(200)</p>
         <div className="formAlani">
           <form onSubmit={handleSubmit}>
             <label>
@@ -104,9 +105,9 @@ const FormArea = () => {
             </label>
             <br />
             <div className="options">
-              <label>
-                Boyut Seç:
-                {["small", "medium", "large"].map((size) => (
+              <label className="pizzaboyut-container">
+                Boyut Seç:<span style={{ color: "red" }}>*</span>
+                {pizzaBoyut.map((size) => (
                   <label key={size}>
                     <input
                       type="radio"
@@ -114,14 +115,15 @@ const FormArea = () => {
                       value={size}
                       onChange={handleInputChange}
                       required
+                      checked={formData.boyut === size}
                       disabled={submitting}
                     />
                     {size.charAt(0).toUpperCase() + size.slice(1)}
                   </label>
                 ))}
               </label>
-              <label>
-                Hamur Tipi:
+              <label className="pizzahamur-container">
+                Hamur Tipi:<span style={{ color: "red" }}>*</span>
                 <select
                   name="hamurTipi"
                   value={formData.hamurTipi}
@@ -145,7 +147,7 @@ const FormArea = () => {
                     type="checkbox"
                     name="toppings"
                     value={topping.name}
-                    onChange={handleInputChange}
+                    onChange={handleCheckboxChange}
                     checked={formData.toppings.includes(topping.name)}
                     disabled={submitting}
                   />
@@ -166,27 +168,29 @@ const FormArea = () => {
             <hr />
             <div className="order-summary">
               <div className="counter">
-                <Button
+                <button
+                  type="button"
                   onClick={() => handleCounterChange(true)}
-                  color="primary"
+                  disabled={submitting}
                 >
                   +
-                </Button>
+                </button>
                 <div className="counter-value">{counter}</div>
-                <Button
+                <button
+                  type="button"
                   onClick={() => handleCounterChange(false)}
-                  color="primary"
+                  disabled={submitting}
                 >
                   -
-                </Button>
+                </button>
               </div>
               <div className="order-total">
                 <div>Pizza Price: {pizzaBasePrice} TL</div>
                 <div>Extra Topping Price: {totalToppingPrice} TL</div>
                 <div>Order Total: {totalPrice} TL</div>
-                <Button type="submit" disabled={!isFormValid()}>
-                  {submitting ? "Sending..." : "Place Order"}
-                </Button>
+                <button type="submit" disabled={!isFormValid()}>
+                  Sipariş Ver
+                </button>
               </div>
             </div>
           </form>
