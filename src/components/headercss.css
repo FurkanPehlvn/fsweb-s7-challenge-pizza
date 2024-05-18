@@ -1,0 +1,14 @@
+.header-content {
+  background-color: #ce2829;
+  width: 100%;
+  height: 6.313rem;
+  display: flex;
+  justify-content: center;
+}
+.header-content-img {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  object-fit: contain;
+  aspect-ratio: 2/1;
+}

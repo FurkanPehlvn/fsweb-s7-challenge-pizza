@@ -1,9 +1,12 @@
+import hlogo from "../assets/home-banner.png";
+
 const Anasayfa = () => {
   return (
     <>
-      <h1>teknolojik Yemekler</h1>
-
-      <button>Sipariş ver</button>
+      <div className="homepage-content">
+        <img className="homepage-content img" src={hlogo} alt={hlogo}></img>
+        <p>KOD ACIKTIRIR</p>
+      </div>
     </>
   );
 };

@@ -83,13 +83,6 @@ const FormArea = () => {
 
   return (
     <main>
-      <header>
-        <h1>Teknolojik Yemekler</h1>
-        <nav>
-          <a href="#">Anasayfa</a>
-          <a href="#">Sipariş Oluştur</a>
-        </nav>
-      </header>
       <section className="pizza-section">
         <h2>Pizza Adı</h2>
         <div className="formAlani">
