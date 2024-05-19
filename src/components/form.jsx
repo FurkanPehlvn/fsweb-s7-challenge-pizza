@@ -193,15 +193,15 @@ const FormArea = () => {
             <hr />
             <div className="order-summary">
               <div className="counter">
-                <button type="button" onClick={() => handleCounterChange(true)}>
-                  +
-                </button>
-                <div className="counter-value">{counter}</div>
                 <button
                   type="button"
                   onClick={() => handleCounterChange(false)}
                 >
                   -
+                </button>
+                <div className="counter-value">{counter}</div>
+                <button type="button" onClick={() => handleCounterChange(true)}>
+                  +
                 </button>
               </div>
               <div className="order-total">
