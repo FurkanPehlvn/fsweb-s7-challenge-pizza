@@ -1,7 +1,13 @@
+import { useHistory } from "react-router-dom";
 import logo from "../assets/home-banner.png";
 import "./mainpage.css";
 
 const HomePage = () => {
+  let history = useHistory();
+
+  function handleSubmit() {
+    history.push("/orderpage");
+  }
   return (
     <div className="homepage-content">
       <img className="homepage-content-img" src={logo} alt="Home Banner" />
@@ -11,7 +17,9 @@ const HomePage = () => {
           <br />
           PİZZA, DOYURUR
         </h1>
-        <button className="homepage-content-btn">ACIKTIM</button>
+        <button className="homepage-content-btn" onClick={handleSubmit}>
+          ACIKTIM
+        </button>
       </div>
     </div>
   );

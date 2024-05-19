@@ -2,7 +2,6 @@ import { BrowserRouter, Route, Switch } from "react-router-dom";
 import "./App.css";
 import FormArea from "./components/form";
 import Header from "./components/header";
-
 import HomePage from "./components/mainpage";
 function App() {
   return (

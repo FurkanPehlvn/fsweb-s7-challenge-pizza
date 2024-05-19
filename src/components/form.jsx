@@ -1,18 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./form.css";
 
 const FormArea = () => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     isim: "",
     boyut: "",
     hamurTipi: "",
     toppings: [],
     extraNotes: "",
-  });
+    adet: 1,
+  };
 
+  const [formData, setFormData] = useState(initialFormData);
   const [submitting, setSubmitting] = useState(false);
   const [counter, setCounter] = useState(1);
+
+  useEffect(() => {
+    fetchCounter();
+  }, [counter]);
+
+  function fetchCounter() {
+    formData.adet = counter;
+  }
 
   const pizzaBasePrice = 20;
   const extraToppingPrice = 5;
@@ -70,6 +80,8 @@ const FormArea = () => {
       console.error("Hata:", error);
     } finally {
       setSubmitting(false);
+      setFormData(initialFormData);
+      setCounter(1); // Reset form data to initial state
     }
   };
 
