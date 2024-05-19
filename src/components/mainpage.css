@@ -1,43 +1,60 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Satisfy&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Satisfy&display=swap");
-.homepage-content {
-  /* height: 6.313rem;
-    width: 100%;
-    display: flex; 
-    justify-content: center;  */
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.homepage-content {
   width: 100%;
   height: 100%;
   display: flex;
-  justify-content: center;
-  position: fixed;
-}
-.homepage-content-img {
-  /* display: flex;
-    align-items: center;
-    justify-content: center; 
-    object-fit: contain;
-    aspect-ratio:2/1;
-    width: 100%;
-    height: 100%; */
-  display: flex;
   align-items: center;
   justify-content: center;
-  object-fit: contain;
-  aspect-ratio: 2/1;
-  width: 100%;
-  position: fixed;
+  position: relative;
 }
+
+.homepage-content-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.homepage-content-overlay {
+  position: absolute;
+  top: 10%; /* Adjust this value to move the content higher or lower */
+  left: 50%;
+  transform: translate(-50%, -10%);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* Aligns items to the top */
+
+  padding: 20px; /* Optional: to add some space around the content */
+}
+
 .homepage-content-text {
   color: white;
-
-  position: absolute;
+  text-align: center;
+  font-family: "Roboto Condensed", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 20px;
 }
+
 .homepage-content-btn {
-  margin-top: 180px;
-  position: absolute;
+  padding: 10px 20px;
   color: black;
   background-color: #fdc913;
+  border: none;
   border-radius: 50px;
+  cursor: pointer;
+  font-family: "Barlow", sans-serif;
+  font-size: 1.2rem;
 }

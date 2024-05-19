@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-
 import "./form.css";
 
 const FormArea = () => {
@@ -86,9 +85,21 @@ const FormArea = () => {
     <main>
       <section className="pizza-section">
         <h2>Pizza Adı</h2>
-        <h3>{pizzaBasePrice}₺</h3>
-        <p>4.9</p>
-        <p>(200)</p>
+        <div className="pizza-info">
+          <h3>{pizzaBasePrice}₺</h3>
+          <div className="pizza-rating">
+            <p>4.9</p>
+            <p>(200)</p>
+          </div>
+        </div>
+        <p>
+          Frontent Dev olarak hala position:absolute kullanıyorsan bu çok acı
+          pizza tam sana göre. Pizza, domates, peynir ve genellikle çeşitli
+          diğer malzemelerle kaplanmış, daha sonra geleneksel olarak odun
+          ateşinde bir fırında yüksek sıcaklıkta pişirilen, genellikle yuvarlak,
+          düzleştirilmiş mayalı buğday bazlı hamurdan oluşan İtalyan kökenli
+          lezzetli bir yemektir. . Küçük bir pizzaya bazen pizzetta denir.
+        </p>
         <div className="formAlani">
           <form onSubmit={handleSubmit}>
             <label>
@@ -131,7 +142,9 @@ const FormArea = () => {
                   required
                   disabled={submitting}
                 >
-                  <option value="">Hamur Tipi Seçiniz</option>
+                  <option disabled value="">
+                    Hamur Tipi Seçiniz
+                  </option>
                   <option value="ince">İnce</option>
                   <option value="standart">Standart</option>
                   <option value="kalin">Kalın</option>
@@ -168,18 +181,13 @@ const FormArea = () => {
             <hr />
             <div className="order-summary">
               <div className="counter">
-                <button
-                  type="button"
-                  onClick={() => handleCounterChange(true)}
-                  disabled={submitting}
-                >
+                <button type="button" onClick={() => handleCounterChange(true)}>
                   +
                 </button>
                 <div className="counter-value">{counter}</div>
                 <button
                   type="button"
                   onClick={() => handleCounterChange(false)}
-                  disabled={submitting}
                 >
                   -
                 </button>
