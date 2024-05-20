@@ -3,12 +3,33 @@
   width: 100%;
   height: 6.313rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
-}
-.header-content-img {
-  display: flex;
   align-items: center;
-  justify-content: center;
+  position: relative;
+}
+
+.header-content-img {
+  height: 100%;
   object-fit: contain;
   aspect-ratio: 2/1;
+  margin-bottom: 0.5rem; /* Adjust as needed to provide spacing between the logo and nav */
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+  position: absolute;
+  bottom: 0; /* Align the nav to the bottom */
+  justify-content: center;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+.nav-link:hover {
+  color: #007bff;
 }
