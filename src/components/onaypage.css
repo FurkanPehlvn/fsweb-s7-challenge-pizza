@@ -1,0 +1,10 @@
+.onay-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  background-color: yellow;
+  height: 100vh;
+  color: white;
+  font-family: Roboto Condensed;
+  font-weight: normal;
+}

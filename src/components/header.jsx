@@ -7,7 +7,9 @@ const Header = () => {
   const location = useLocation();
 
   const isMainPage = location.pathname === "/";
-
+  if (isMainPage) {
+    return null;
+  }
   return (
     <div className="header-content">
       <img className="header-content-img" src={logo} alt="Logo" />

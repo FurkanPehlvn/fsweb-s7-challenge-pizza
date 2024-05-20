@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./form.css";
+import { useHistory } from "react-router-dom";
 
 const FormArea = () => {
   const initialFormData = {
@@ -15,6 +16,7 @@ const FormArea = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [submitting, setSubmitting] = useState(false);
   const [counter, setCounter] = useState(1);
+  const history = useHistory();
 
   useEffect(() => {
     fetchCounter();
@@ -24,7 +26,7 @@ const FormArea = () => {
     formData.adet = counter;
   }
 
-  const pizzaBasePrice = 20;
+  const pizzaBasePrice = 100;
   const extraToppingPrice = 5;
   const pizzaBoyut = ["small", "medium", "large"];
   const pizzaToppings = [
@@ -75,13 +77,14 @@ const FormArea = () => {
         "https://reqres.in/api/pizza",
         formData
       );
+      history.push("/Onay");
       console.log("Yanıt:", response.data);
     } catch (error) {
       console.error("Hata:", error);
     } finally {
       setSubmitting(false);
       setFormData(initialFormData);
-      setCounter(1); // Reset form data to initial state
+      setCounter(1);
     }
   };
 
