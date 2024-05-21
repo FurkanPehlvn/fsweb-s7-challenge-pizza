@@ -6,7 +6,14 @@ import HomePage from "./components/mainpage";
 import OnayPage from "./components/onaypage";
 import { useState } from "react";
 function App() {
-  const [pizzaBilgi, SetPizzaBilgi] = useState(null);
+  const [pizzaBilgi, SetPizzaBilgi] = useState({
+    isim: "",
+    boyut: "",
+    hamurTipi: "",
+    toppings: [],
+    extraNotes: "",
+    adet: 1,
+  });
   return (
     <BrowserRouter>
       <Header />
