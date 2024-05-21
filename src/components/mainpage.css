@@ -32,9 +32,9 @@ html {
   color: white;
 }
 
-.homepage-teknoyemek-img {
+.homepage-teknoyemek {
   position: absolute;
-  top: 50%; /* Position the image in the middle vertically */
+  top: 10%; /* Position the image in the middle vertically */
   left: 50%; /* Position the image in the middle horizontally */
   transform: translate(-50%, -50%); /* Center the image precisely */
   width: 200px; /* Adjust size as needed */
