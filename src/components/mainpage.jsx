@@ -14,6 +14,7 @@ const HomePage = () => {
       <img className="homepage-teknoyemek" src={teknoyemek} alt="Logo" />
       <img className="homepage-content-img" src={logo} alt="Home Banner" />
       <div className="homepage-content-overlay">
+        <p>fırsatı kaçırma</p>
         <h1 className="homepage-content-text">
           KOD ACIKTIRIR
           <br />

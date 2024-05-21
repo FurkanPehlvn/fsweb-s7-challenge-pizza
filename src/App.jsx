@@ -4,7 +4,9 @@ import FormArea from "./components/form";
 import Header from "./components/header";
 import HomePage from "./components/mainpage";
 import OnayPage from "./components/onaypage";
+import { useState } from "react";
 function App() {
+  const [pizzaBilgi, SetPizzaBilgi] = useState(null);
   return (
     <BrowserRouter>
       <Header />
@@ -13,10 +15,10 @@ function App() {
           <HomePage />
         </Route>
         <Route path="/OrderPage">
-          <FormArea />
+          <FormArea SetPizzaBilgi={SetPizzaBilgi} />
         </Route>
         <Route path="/Onaypage" exact />
-        <OnayPage />
+        <OnayPage pizzaBilgi={pizzaBilgi} />
       </Switch>
     </BrowserRouter>
   );

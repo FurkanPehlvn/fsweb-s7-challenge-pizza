@@ -3,7 +3,7 @@ import axios from "axios";
 import "./form.css";
 import { useHistory } from "react-router-dom";
 
-const FormArea = () => {
+const FormArea = ({ SetPizzaBilgi }) => {
   const initialFormData = {
     isim: "",
     boyut: "",
@@ -16,6 +16,7 @@ const FormArea = () => {
   const [formData, setFormData] = useState(initialFormData);
   const [submitting, setSubmitting] = useState(false);
   const [counter, setCounter] = useState(1);
+  const [total, SetTotal] = useState(0);
   const history = useHistory();
 
   useEffect(() => {
@@ -71,12 +72,14 @@ const FormArea = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const pizzaSiparis = { ...formData, total, counter };
     setSubmitting(true);
     try {
       const response = await axios.post(
         "https://reqres.in/api/pizza",
-        formData
+        pizzaSiparis
       );
+      SetPizzaBilgi(pizzaSiparis);
       history.push("/Onay");
       console.log("Yanıt:", response.data);
     } catch (error) {
@@ -95,6 +98,10 @@ const FormArea = () => {
 
   const totalToppingPrice = formData.toppings.length * extraToppingPrice;
   const totalPrice = (pizzaBasePrice + totalToppingPrice) * counter;
+
+  useEffect(() => {
+    SetTotal(totalPrice);
+  }, [formData.toppings, counter]);
 
   return (
     <main>
@@ -170,7 +177,7 @@ const FormArea = () => {
             <label>Pizza Toppings:</label>
             <div className="toppings">
               {pizzaToppings.map((topping) => (
-                <label key={topping.id}>
+                <label className="topping-container" key={topping.id}>
                   <input
                     type="checkbox"
                     name="toppings"

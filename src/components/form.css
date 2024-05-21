@@ -88,18 +88,16 @@ textarea {
 
 .toppings {
   display: flex;
-  flex-wrap: wrap;
-}
-
-.topping-column {
-  flex: 1;
-  display: flex;
   flex-direction: column;
-  margin-right: 1rem;
+  flex-wrap: wrap;
+  max-height: 400px; /* Adjust the height as necessary */
 }
 
-.topping-column label {
-  margin-bottom: 0.5rem;
+.toppings label {
+  flex: 1 0 25%; /* Flex-grow: 1, flex-shrink: 0, flex-basis: 25% */
+  box-sizing: border-box;
+  width: 100%;
+  order: 4;
 }
 
 hr {
